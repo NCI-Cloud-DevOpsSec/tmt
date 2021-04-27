@@ -1,3 +1,7 @@
+tmt
+
+This is an executive and management dashboard to view QA process of any subscribed project.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
