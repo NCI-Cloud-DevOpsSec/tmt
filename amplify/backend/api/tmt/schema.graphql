@@ -1,0 +1,180 @@
+type User 
+  @model 
+  @auth(rules: [{ allow: owner, queries: null }]) {
+  id: ID!
+  group: String!
+  username: String!
+  email: String!
+  dateOfBirth: AWSDate
+  designation: String!
+  projects: [ProjectLink] @connection(name: "UserProjects")
+  testCases: [TestCase] @connection(name: "UserTestCases")
+  results: [Result] @connection(name: "UserTestResults")
+  createdAt: String
+  updatedAt: String
+}
+type Project
+  @model(
+    mutations: { create: "createProject" }
+    queries: {get: "getProject", list: "listProject"}
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+    { allow: groups, groups: [ "Admin", "Manager" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Executive", "Tester" ], operations: [read] }])
+{
+  id: ID!
+  name: String!
+  description: String!
+  results: [Result] @connection(name: "ProjectResults", sortField: "createdAt")
+  testCases: [TestCase] @connection(name: "ProjectTestCases", sortField: "testCaseId")
+  associated: [ProjectLink] @connection(name: "AssociatedLinks")
+}
+type TestCase
+@model(
+    mutations: { create: "createTestcase" }
+    queries: {get: "getTestCase", list: "listTestCase"}
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+    { allow: groups, groups: [ "Admin", "Manager", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Executive" ], operations: [read] }])
+{
+  id: ID!
+  testCaseId: String!
+  name: String!
+  description: String!
+  module: String!
+  project: Project! @connection(name: "ProjectTestCases")
+  testSteps: [TestStep] @connection(name: "TestCaseTestSteps")
+  author: User @connection(name: "UserTestCases", keyField: "authorId")
+  authorId: String
+  testCaseProjectId: ID!
+  createdAt: String
+  updatedAt: String
+}
+type TestStep
+@model(
+    mutations: { create: "createTestStep" }
+    queries: {get: "getTestStep", list: "listTestStep"}
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+    { allow: groups, groups: [ "Admin", "Manager", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Executive" ], operations: [read] }])
+{
+  id: ID!
+  testStepId: String!
+  description: String!
+  testCase: TestCase! @connection(name: "TestCaseTestSteps")
+  testStepTestCaseId: ID!
+  createdAt: String
+  updatedAt: String
+}
+type Result
+@model(
+    mutations: { create: "createResult" }
+    queries: {get: "getResult", list: "listResult"}
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
+{
+  id: ID!
+  runId: String!
+  Project: Project! @connection(name: "ProjectResults")
+  author: User @connection(name: "UserTestResults", keyField: "authorId")
+  authorId: String
+  resultProjectId: ID!
+  reports: [Report] @connection(name: "ResultReports")
+  createdAt: String
+  updatedAt: String
+}
+type Report
+@model(
+    mutations: { create: "createReport" }
+    queries: {get: "getReport", list: "listReport"}
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
+{
+  id: ID!
+  result: Result! @connection(name: "ResultReports")
+  totalExecuted: Int
+  totalPass: Int
+  totalFail: Int
+  totalResultUndetermined: Int
+  testCaseReport: [TestCaseReport] @connection(name: "TestCaseReports")
+  createdAt: String
+  updatedAt: String
+}
+type TestCaseReport
+@model(
+    mutations: { create: "createTestCaseReport" }
+    queries: {get: "getTestCaseReport", list: "listTestCaseReport"}
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
+{
+  id: ID!
+  testCaseId: String!
+  testCaseStatus: Int!
+  report: Report! @connection(name: "TestCaseReports")
+  testStepReports: [TestStepReport] @connection(name: "TestStepReports")
+  createdAt: String
+  updatedAt: String
+}
+type TestStepReport
+@model(
+    mutations: { create: "createTestStepReport" }
+    queries: {get: "getTestStepReport", list: "listTestStepReport"}
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
+{
+  id: ID!
+  testStepId: String!
+  testStepStatus: Int!
+  testStepArtefacts: [String]
+  testCaseReport: TestCaseReport! @connection(name: "TestStepReports")
+  createdAt: String
+  updatedAt: String
+}
+type ProjectLink 
+  @model(
+    mutations: { create: "createProjectLink", update: "updateProjectLink" }
+    queries: null
+    subscriptions: null
+  ) {
+  id: ID!
+  user: User! @connection(name: "UserProjects")
+  projectLinkUserId: ID
+  project: Project! @connection(name: "AssociatedLinks")
+  projectLinkProjectId: ID!
+  createdAt: String
+  updatedAt: String
+}
+type Subscription {
+  onCreateProjectLink(projectLinkUserId: ID!): ProjectLink
+    @aws_subscribe(mutations: ["createProjectLink"])
+  onCreateTestCase(testCaseProjectId: ID!): TestCase
+    @aws_subscribe(mutations: ["createTestcase"])
+  onCreateResult(resultProjectId: ID!): Result
+    @aws_subscribe(mutations: ["createResult"])
+  onCreateTestStep(testStepTestCaseId: ID!) : TestStep
+    @aws_subscribe(mutations: ["createTestStep"])
+}
