@@ -1,6 +1,6 @@
 type User 
   @model 
-  @auth(rules: [{ allow: owner, queries: null }]) {
+  @auth(rules: [{ allow: owner }]) {
   id: ID!
   group: String!
   username: String!

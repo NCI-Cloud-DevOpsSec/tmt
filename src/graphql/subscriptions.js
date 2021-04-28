@@ -891,8 +891,8 @@ export const onCreateTestStep = /* GraphQL */ `
   }
 `;
 export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser {
-    onCreateUser {
+  subscription OnCreateUser($owner: String!) {
+    onCreateUser(owner: $owner) {
       id
       group
       username
@@ -1072,8 +1072,8 @@ export const onCreateUser = /* GraphQL */ `
   }
 `;
 export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser {
-    onUpdateUser {
+  subscription OnUpdateUser($owner: String!) {
+    onUpdateUser(owner: $owner) {
       id
       group
       username
@@ -1253,8 +1253,8 @@ export const onUpdateUser = /* GraphQL */ `
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser {
-    onDeleteUser {
+  subscription OnDeleteUser($owner: String!) {
+    onDeleteUser(owner: $owner) {
       id
       group
       username
