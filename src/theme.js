@@ -1,4 +1,4 @@
-const primary = 'rgb(250, 50, 50)'
+const primary = 'rgb(17,113,186)'
 const lightBg = 'rgba(250, 50, 50, .2)'
 
 export {

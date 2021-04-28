@@ -107,6 +107,27 @@ const getUser = graphql`
     }
   }
 `
+const getTesterProjects = graphql`
+query getTesterProjects($email: String!){
+  listProject(filter: {testers: {contains: $email}}) {
+    items {
+      id
+      name
+      projectId
+      results {
+        items {
+          runId
+        }
+      }
+      testCases {
+        items {
+          testCaseId
+        }
+      }
+    }
+  }
+}
+`
 
 const getUserByEmail = graphql`
   query listUsers ($email: String!){
@@ -173,6 +194,28 @@ const listUsers = graphql`
         designation
         createdAt
       }
+    }
+  }
+`
+
+const listProject = graphql`
+  query listProject {
+    listProject {
+      items {
+      id
+      name
+      projectId
+      results {
+        items {
+          runId
+        }
+      }
+      testCases {
+        items {
+          testCaseId
+        }
+      }
+    }
     }
   }
 `
@@ -252,9 +295,11 @@ export {
   //   createConvoLink,
   //   getConvo,
   getUser,
+  getTesterProjects,
   getUserByEmail,
   //   getUserAndConversations,
   listUsers,
+  listProject,
   // listRecipies,
   // filterRecipieByName,
   //   onCreateMessage,

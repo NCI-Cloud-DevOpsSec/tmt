@@ -56,14 +56,14 @@ const ProfileWithData = observer(class Profile extends React.Component {
         <p {...css(styles.title)}>Profile</p>
         <p>Email: <b>{email}</b></p>
         <p>Designation:
-          <form>
+          <form {...css(styles.editDesignation)}>
             <input type="text" id="profile_designation" value={this.designation} onChange={this.onDesignationEdit} />
             <button {...css(styles.button)} onClick={this.onUpdateUser}> Update </button>
           </form>
         </p>
         <p>Access Group: <b>{group}</b></p>
 
-        <div {...css(styles.button)}>
+        <div {...css(styles.signOutButton)}>
           <p {...css(styles.buttonText)} onClick={this.signOut}>Sign Out</p>
         </div>
       </div>
@@ -80,14 +80,16 @@ const styles = {
     backgroundColor: '#ededed',
     cursor: 'pointer'
   },
-  createButton: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 50,
-    display: 'flex',
+  editDesignation: {
+    position: 'relative'
+  },
+  signOutButton: {
+    fontWeight: 500,
+    position: 'relative',
+    margin: '10px 0px 0px',
+    height: 30,
     justifyContent: 'center',
+    'textAlign': 'center',
     alignItems: 'center',
     backgroundColor: '#ededed',
     cursor: 'pointer'
@@ -96,6 +98,11 @@ const styles = {
     fontWeight: 500
   },
   container: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    border: `2px solid ${primary}`,
     padding: 10
   },
   title: {

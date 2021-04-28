@@ -10,6 +10,12 @@ class Header extends React.Component {
     return (
       <div {...css(styles.header)}>
         <Link
+          to='/project'
+          {...css(styles.button)}
+        >
+          <p {...css(styles.buttonText)}>Project</p>
+        </Link>
+        <Link
           to='/profile'
           {...css(styles.button)}
         >
@@ -44,7 +50,8 @@ const styles = {
     color: 'black'
   },
   buttonText: {
-    fontWeight: 500
+    fontWeight: 500,
+    color: 'white'
   }
 }
 

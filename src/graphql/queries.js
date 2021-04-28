@@ -36,6 +36,7 @@ export const getUser = /* GraphQL */ `
           projectLinkUserId
           project {
             id
+            projectId
             name
             description
             results {
@@ -47,6 +48,7 @@ export const getUser = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -65,6 +67,7 @@ export const getUser = /* GraphQL */ `
           module
           project {
             id
+            projectId
             name
             description
             results {
@@ -76,6 +79,7 @@ export const getUser = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -123,6 +127,7 @@ export const getUser = /* GraphQL */ `
           runId
           Project {
             id
+            projectId
             name
             description
             results {
@@ -134,6 +139,7 @@ export const getUser = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -213,8 +219,10 @@ export const listUsers = /* GraphQL */ `
             projectLinkUserId
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -233,8 +241,10 @@ export const listUsers = /* GraphQL */ `
             module
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -265,8 +275,10 @@ export const listUsers = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -303,6 +315,7 @@ export const getProject = /* GraphQL */ `
   query GetProject($id: ID!) {
     getProject(id: $id) {
       id
+      projectId
       name
       description
       results {
@@ -311,6 +324,7 @@ export const getProject = /* GraphQL */ `
           runId
           Project {
             id
+            projectId
             name
             description
             results {
@@ -322,6 +336,7 @@ export const getProject = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -373,6 +388,7 @@ export const getProject = /* GraphQL */ `
           module
           project {
             id
+            projectId
             name
             description
             results {
@@ -384,6 +400,7 @@ export const getProject = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -451,6 +468,7 @@ export const getProject = /* GraphQL */ `
           projectLinkUserId
           project {
             id
+            projectId
             name
             description
             results {
@@ -462,6 +480,7 @@ export const getProject = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -471,6 +490,7 @@ export const getProject = /* GraphQL */ `
         }
         nextToken
       }
+      testers
       createdAt
       updatedAt
     }
@@ -485,6 +505,7 @@ export const listProject = /* GraphQL */ `
     listProject(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        projectId
         name
         description
         results {
@@ -493,8 +514,10 @@ export const listProject = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -528,8 +551,10 @@ export const listProject = /* GraphQL */ `
             module
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -571,8 +596,10 @@ export const listProject = /* GraphQL */ `
             projectLinkUserId
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -582,6 +609,7 @@ export const listProject = /* GraphQL */ `
           }
           nextToken
         }
+        testers
         createdAt
         updatedAt
       }
@@ -599,6 +627,7 @@ export const getTestCase = /* GraphQL */ `
       module
       project {
         id
+        projectId
         name
         description
         results {
@@ -607,8 +636,10 @@ export const getTestCase = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -642,8 +673,10 @@ export const getTestCase = /* GraphQL */ `
             module
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -685,8 +718,10 @@ export const getTestCase = /* GraphQL */ `
             projectLinkUserId
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -696,6 +731,7 @@ export const getTestCase = /* GraphQL */ `
           }
           nextToken
         }
+        testers
         createdAt
         updatedAt
       }
@@ -712,8 +748,10 @@ export const getTestCase = /* GraphQL */ `
             module
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -766,8 +804,10 @@ export const getTestCase = /* GraphQL */ `
             projectLinkUserId
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -786,8 +826,10 @@ export const getTestCase = /* GraphQL */ `
             module
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -818,8 +860,10 @@ export const getTestCase = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -870,6 +914,7 @@ export const listTestCase = /* GraphQL */ `
         module
         project {
           id
+          projectId
           name
           description
           results {
@@ -907,6 +952,7 @@ export const listTestCase = /* GraphQL */ `
             }
             nextToken
           }
+          testers
           createdAt
           updatedAt
         }
@@ -1001,6 +1047,7 @@ export const getTestStep = /* GraphQL */ `
         module
         project {
           id
+          projectId
           name
           description
           results {
@@ -1038,6 +1085,7 @@ export const getTestStep = /* GraphQL */ `
             }
             nextToken
           }
+          testers
           createdAt
           updatedAt
         }
@@ -1139,6 +1187,7 @@ export const listTestStep = /* GraphQL */ `
           module
           project {
             id
+            projectId
             name
             description
             results {
@@ -1150,6 +1199,7 @@ export const listTestStep = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -1204,6 +1254,7 @@ export const getResult = /* GraphQL */ `
       runId
       Project {
         id
+        projectId
         name
         description
         results {
@@ -1212,8 +1263,10 @@ export const getResult = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -1247,8 +1300,10 @@ export const getResult = /* GraphQL */ `
             module
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -1290,8 +1345,10 @@ export const getResult = /* GraphQL */ `
             projectLinkUserId
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -1301,6 +1358,7 @@ export const getResult = /* GraphQL */ `
           }
           nextToken
         }
+        testers
         createdAt
         updatedAt
       }
@@ -1328,8 +1386,10 @@ export const getResult = /* GraphQL */ `
             projectLinkUserId
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -1348,8 +1408,10 @@ export const getResult = /* GraphQL */ `
             module
             project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -1380,8 +1442,10 @@ export const getResult = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -1420,8 +1484,10 @@ export const getResult = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -1480,6 +1546,7 @@ export const listResult = /* GraphQL */ `
         runId
         Project {
           id
+          projectId
           name
           description
           results {
@@ -1517,6 +1584,7 @@ export const listResult = /* GraphQL */ `
             }
             nextToken
           }
+          testers
           createdAt
           updatedAt
         }
@@ -1607,6 +1675,7 @@ export const getReport = /* GraphQL */ `
         runId
         Project {
           id
+          projectId
           name
           description
           results {
@@ -1644,6 +1713,7 @@ export const getReport = /* GraphQL */ `
             }
             nextToken
           }
+          testers
           createdAt
           updatedAt
         }
@@ -1785,6 +1855,7 @@ export const listReport = /* GraphQL */ `
           runId
           Project {
             id
+            projectId
             name
             description
             results {
@@ -1796,6 +1867,7 @@ export const listReport = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -1882,6 +1954,7 @@ export const getTestCaseReport = /* GraphQL */ `
           runId
           Project {
             id
+            projectId
             name
             description
             results {
@@ -1893,6 +1966,7 @@ export const getTestCaseReport = /* GraphQL */ `
             associated {
               nextToken
             }
+            testers
             createdAt
             updatedAt
           }
@@ -2015,8 +2089,10 @@ export const listTestCaseReport = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }
@@ -2099,8 +2175,10 @@ export const getTestStepReport = /* GraphQL */ `
             runId
             Project {
               id
+              projectId
               name
               description
+              testers
               createdAt
               updatedAt
             }

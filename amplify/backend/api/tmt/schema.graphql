@@ -25,11 +25,13 @@ type Project
     { allow: groups, groups: [ "Executive", "Tester" ], operations: [read] }])
 {
   id: ID!
+  projectId: String!
   name: String!
   description: String!
   results: [Result] @connection(name: "ProjectResults", sortField: "createdAt")
   testCases: [TestCase] @connection(name: "ProjectTestCases", sortField: "testCaseId")
   associated: [ProjectLink] @connection(name: "AssociatedLinks")
+  testers: [String!]!
 }
 type TestCase
 @model(
