@@ -20,6 +20,24 @@ const createUser = `
   }
 `
 
+const createProject = `
+  mutation($projectId: String!, $name: String!, $description: String!, $testers: [String!]!) {
+    createProject(input: {
+      projectId: $projectId
+      name: $name
+      description: $description
+      testers: $testers
+    }
+    ) {
+      id
+      name
+      testers
+      projectId
+      description
+    }
+  }
+`
+
 const updateUser = `
 mutation ($id: ID!, $designation: String, $group: String) {
   updateUser(input: {
@@ -205,6 +223,7 @@ const listProject = graphql`
       id
       name
       projectId
+      description
       results {
         items {
           runId
@@ -215,6 +234,7 @@ const listProject = graphql`
           testCaseId
         }
       }
+      testers
     }
     }
   }
@@ -289,6 +309,7 @@ const onCreateUser = gql`subscription OnCreateUser {
 
 export {
   createUser,
+  createProject,
   updateUser,
   // createRecipie,
   //   createMessage,

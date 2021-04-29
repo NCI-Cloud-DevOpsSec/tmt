@@ -21,7 +21,7 @@ type Project
   )
   @auth(
     rules: [
-    { allow: groups, groups: [ "Admin", "Manager" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Admin", "Manager" ],  operations: [create, update, delete, read]},
     { allow: groups, groups: [ "Executive", "Tester" ], operations: [read] }])
 {
   id: ID!
@@ -41,7 +41,7 @@ type TestCase
   )
   @auth(
     rules: [
-    { allow: groups, groups: [ "Admin", "Manager", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Admin", "Manager", "Tester" ],  operations: [create, update, delete, read]},
     { allow: groups, groups: [ "Executive" ], operations: [read] }])
 {
   id: ID!
@@ -65,7 +65,7 @@ type TestStep
   )
   @auth(
     rules: [
-    { allow: groups, groups: [ "Admin", "Manager", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Admin", "Manager", "Tester" ],  operations: [create, update, delete, read]},
     { allow: groups, groups: [ "Executive" ], operations: [read] }])
 {
   id: ID!
@@ -84,7 +84,7 @@ type Result
   )
   @auth(
     rules: [
-    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete, read]},
     { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
 {
   id: ID!
@@ -105,7 +105,7 @@ type Report
   )
   @auth(
     rules: [
-    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete, read]},
     { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
 {
   id: ID!
@@ -126,7 +126,7 @@ type TestCaseReport
   )
   @auth(
     rules: [
-    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete, read]},
     { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
 {
   id: ID!
@@ -145,7 +145,7 @@ type TestStepReport
   )
   @auth(
     rules: [
-    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete]},
+    { allow: groups, groups: [ "Admin", "Tester" ],  operations: [create, update, delete, read]},
     { allow: groups, groups: [ "Executive", "Manager" ], operations: [read] }])
 {
   id: ID!

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { css } from 'glamor'
 import { Auth } from 'aws-amplify'
@@ -8,7 +8,9 @@ import UserStore from '../mobx/UserStore'
 import { primary } from '../theme'
 
 import { API, graphqlOperation } from 'aws-amplify'
-import { getTesterProjects, listProject } from '../graphql'
+import { getTesterProjects, listProject, createProject } from '../graphql'
+
+import MultipleValueTextInput from 'react-multivalue-text-input';
 
 const ProjectWithData = observer(class Project extends React.Component {
     signOut = async () => {
@@ -21,14 +23,69 @@ const ProjectWithData = observer(class Project extends React.Component {
 
     constructor() {
         super();
-        this.projects = {
-            "data": {
-                "getUser": {
-                    "projects": {
-                        "items": []
-                    }
-                }
-            }
+        this.state = {
+            projects: {
+                "items": []
+            },
+            isAddRowHidden: true,
+            projectName: '',
+            projectId: '',
+            projectDescription: '',
+            testers: []
+        }
+        this.onAddNewProjectDescriptionChange = this.onAddNewProjectDescriptionChange.bind(this);
+        this.onAddNewProjectIdChange = this.onAddNewProjectIdChange.bind(this);
+        this.onAddNewProjectNameChange = this.onAddNewProjectNameChange.bind(this);
+
+    }
+
+    onAddNewProjectNameChange = event => {
+        this.setState({
+            projectName: event.target.value
+        })
+    }
+
+    onAddNewProjectDescriptionChange = event => {
+        this.setState({
+            projectDescription: event.target.value
+        })
+    }
+
+    onAddNewProjectIdChange = event => {
+        this.setState({
+            projectId: event.target.value
+        })
+    }
+
+    onAddProjectClick = event => {
+        if(this.state.isAddRowHidden){
+            this.setState({
+                isAddRowHidden: false
+            })
+        }
+        else{
+            this.setState({
+                isAddRowHidden: true
+            })
+        }
+    }
+
+    onCreateProjectClick = event => {
+        if (this.state.projectId !== "" && this.state.name !== "" && this.state.testers !== "") {
+            API.graphql(graphqlOperation(createProject, {
+                projectId: this.state.projectId,
+                name: this.state.projectName,
+                description: this.state.projectDescription,
+                testers: this.state.testers
+            })).then(result => {
+                console.log("Created project: ", result)
+            }).catch(err => {
+                console.log("Error Creating new project", err)
+                alert("Error creating project! Make sure to 'Add Project' and fill all enables fields before 'Create Project'")
+            })
+        }
+        else {
+            alert("Perform 'Add Project' and fill all details before performing 'Create Project'")
         }
     }
 
@@ -36,15 +93,23 @@ const ProjectWithData = observer(class Project extends React.Component {
 
         const { email, id, designation, group } = UserStore
         if (group === "Executive" || group === "Admin") {
-            API.graphql(graphqlOperation(listProject)).then(result => {
-                this.projects = result.data.listProject
+            API.graphql(graphqlOperation(listProject))
+            .then(result => {
+                console.log("Full projects: ", result)
+                this.setState({
+                    projects: result.data.listProject
+                })
             }).catch(err => {
                 console.log("Error getting user projects!", err)
             })
         }
         else {
-            API.graphql(graphqlOperation(getTesterProjects, { email: email })).then(result => {
-                this.projects = result.data.listProject
+            API.graphql(graphqlOperation(getTesterProjects, { email: email }))
+            .then(result => {
+                console.log("User projects: ", result)
+                this.setState({
+                    projects: result.data.listProject
+                })
             }).catch(err => {
                 console.log("Error getting user projects!", err)
             })
@@ -57,45 +122,93 @@ const ProjectWithData = observer(class Project extends React.Component {
         return (
             <div {...css(styles.container)}>
                 <p {...css(styles.title)}>Projects</p>
-                <table>
+                <table {...css(styles.table)}>
                     <thead>
-                        <tr>
+                        <tr {...css(styles.tableRow)}>
                             <th>Name</th>
                             <th>Unique ID</th>
                             <th>Description</th>
+                            <th>Testers</th>
                             <th>Test Cases</th>
                             <th>Run Results</th>
                         </tr>
+                        <tr {...css(styles.tableRow)} hidden={this.state.isAddRowHidden}>
+                            <td {...css(styles.tableData)}>
+                                <input {...css(styles.addProjectField)} type="text" onChange={this.onAddNewProjectNameChange} placeholder="Name"></input>
+                            </td>
+                            <td {...css(styles.tableData)}>
+                                <input type="text" onChange={this.onAddNewProjectIdChange} placeholder="Recommended ID: 'Project Name_Random number'"></input>
+                            </td>
+                            <td {...css(styles.tableData)}>
+                                <textarea onChange={this.onAddNewProjectDescriptionChange} ></textarea>
+                            </td>
+                            <td {...css(styles.tableData)}>
+                                <MultipleValueTextInput
+                                    onItemAdded={(item, allItems) =>
+                                        this.setState({
+                                            testers: allItems
+                                        })
+                                    }
+                                    onItemDeleted={(item, allItems) =>
+                                        this.setState({
+                                            testers: allItems
+                                        })
+                                    }
+                                    name="project_testers"
+                                    placeholder="Press Enter after each email address"
+                                />
+                            </td>
+                            <td {...css(styles.tableData)}>
+                                <input type="number" disabled={true} value={0}></input>
+                            </td>
+                            <td {...css(styles.tableData)}>
+                                <input type="number" disabled={true} value={0}></input>
+                            </td>
+                        </tr>
                     </thead>
-                    {this.projects.data.getUser.projects.items.length !== 0 ?
+                    {this.state.projects.items.length !== 0 ?
                         <tbody>
-                            {this.projects.data.getUser.projects.items.map(userProjects => {
-                                <tr>
-                                    <td {...css(styles.tableData)}>{userProjects.name}</td>
-                                    <td {...css(styles.tableData)}>{userProjects.projectId}</td>
-                                    <td {...css(styles.tableData)}>{userProjects.description}</td>
-                                    <td {...css(styles.tableData)}>{userProjects.results.items.length}</td>
-                                    <td {...css(styles.tableData)}>{userProjects.testCases.items.length}</td>
-                                </tr>
+                            {this.state.projects.items.map((userProjects) => {
+                                return (
+                                    <tr {...css(styles.tableRow)}>
+                                        <td {...css(styles.tableData)}>{userProjects.name}</td>
+                                        <td {...css(styles.tableData)}>{userProjects.projectId}</td>
+                                        <td {...css(styles.tableData)}>{userProjects.description}</td>
+                                        <td {...css(styles.tableData)}><ul>{userProjects.testers.map(value=>{
+                                            return( <li>{value}</li> )
+                                        })}</ul></td>
+                                        <td {...css(styles.tableData)}>{userProjects.testCases.items.length}</td>
+                                        <td {...css(styles.tableData)}>{userProjects.results.items.length}</td>
+                                    </tr>
+                                )
                             })}
-                            <tr>
-                                {((group === "Admin") || (group === "Manager")) ?
-                                    <tr>
-                                        <td colSpan='5' {...css(styles.tableData)}> <button>Add Project</button> </td>
-                                    </tr> :
+                            {((group === "Admin") || (group === "Manager")) ?
+                                <tr {...css(styles.tableRow)}>
+                                    <td {...css(styles.tableData)} >
+                                        <button {...css(styles.button)} onClick={this.onAddProjectClick}>Add Project</button> </td>
+                                    <td {...css(styles.tableData)}>
+                                        <button {...css(styles.button)} onClick={this.onCreateProjectClick}>Create Project</button> </td>
+                                </tr> :
+                                <tr>
                                     <br />
-                                }
-                            </tr>
+                                </tr>
+                            }
                         </tbody> :
                         <tbody>
-                            <tr>
-                                {(group === "Tester") ?
-                                    <td colSpan='5' {...css(styles.tableData)}> You are yet to be assigned with a Project </td> :
-                                    ((group === "Admin") || (group === "Manager")) ?
-                                        <td colSpan='5' {...css(styles.tableData)}> <button {...css(styles.button)}>Add Project</button> </td> :
+                            {(group === "Tester") ?
+                                <tr {...css(styles.tableRow)}>
+                                    <td colSpan='5' {...css(styles.tableData)}> You are yet to be assigned with a Project </td>
+                                </tr> :
+                                ((group === "Admin") || (group === "Manager")) ?
+                                    <tr {...css(styles.tableRow)}>
+                                        <td  {...css(styles.tableData)} > <button {...css(styles.button)} onClick={this.onAddProjectClick}>Add Project</button> </td>
+                                        <td  {...css(styles.tableData)} > <button {...css(styles.button)} onClick={this.onCreateProjectClick}>Create Project</button> </td>
+                                    </tr> :
+                                    <tr>
                                         <br />
-                                }
-                            </tr>
+                                    </tr>
+                            }
+
                         </tbody>
                     }
                 </table>
@@ -130,12 +243,13 @@ const styles = {
         fontWeight: 500
     },
     container: {
+        height: '80%',
         position: 'absolute',
         left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        border: `2px solid ${primary}`,
-        padding: 10
+        top: '55%',
+        width: '100%',
+        'overflowY': 'scroll',
+        transform: 'translate(-50%, -50%)'
     },
     title: {
         fontSize: 20,
@@ -144,13 +258,24 @@ const styles = {
         borderBottom: `2px solid ${primary}`,
         paddingBottom: 4
     },
+    table: {
+        width: '100%',
+    },
     tableRow: {
-        'text-align': 'center',
-        alignItems: 'center'
+        'textAlign': 'center',
+        alignItems: 'center',
+        width: '100%',
+        border: `2px solid ${primary}`
     },
     tableData: {
-        'text-align': 'center',
-        alignItems: 'center'
+        'textAlign': 'center',
+        alignItems: 'center',
+        'verticalAlign': 'middle',
+        border: `2px solid ${primary}`
+    },
+    addProjectField: {
+        width: '80%',
+        height: '100%'
     }
 }
 
