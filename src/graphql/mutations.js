@@ -65,6 +65,7 @@ export const createUser = /* GraphQL */ `
         items {
           id
           testCaseId
+          projectId
           name
           description
           module
@@ -255,6 +256,7 @@ export const updateUser = /* GraphQL */ `
         items {
           id
           testCaseId
+          projectId
           name
           description
           module
@@ -445,6 +447,7 @@ export const deleteUser = /* GraphQL */ `
         items {
           id
           testCaseId
+          projectId
           name
           description
           module
@@ -646,6 +649,7 @@ export const createProject = /* GraphQL */ `
         items {
           id
           testCaseId
+          projectId
           name
           description
           module
@@ -767,6 +771,7 @@ export const createTestcase = /* GraphQL */ `
     createTestcase(input: $input, condition: $condition) {
       id
       testCaseId
+      projectId
       name
       description
       module
@@ -813,6 +818,7 @@ export const createTestcase = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -888,6 +894,7 @@ export const createTestcase = /* GraphQL */ `
           testCase {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -966,6 +973,7 @@ export const createTestcase = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -1056,6 +1064,7 @@ export const createTestStep = /* GraphQL */ `
       testCase {
         id
         testCaseId
+        projectId
         name
         description
         module
@@ -1079,6 +1088,7 @@ export const createTestStep = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1111,6 +1121,7 @@ export const createTestStep = /* GraphQL */ `
             testCase {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1146,6 +1157,7 @@ export const createTestStep = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1233,6 +1245,7 @@ export const createResult = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -1341,6 +1354,7 @@ export const createResult = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -1502,6 +1516,7 @@ export const createReport = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1547,6 +1562,7 @@ export const createReport = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1921,6 +1937,7 @@ export const createProjectLink = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -2036,6 +2053,7 @@ export const createProjectLink = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -2157,6 +2175,7 @@ export const updateProjectLink = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -2272,6 +2291,7 @@ export const updateProjectLink = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module

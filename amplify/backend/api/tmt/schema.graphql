@@ -46,6 +46,7 @@ type TestCase
 {
   id: ID!
   testCaseId: String!
+  projectId: String!
   name: String!
   description: String!
   module: String!
@@ -53,7 +54,7 @@ type TestCase
   testSteps: [TestStep] @connection(name: "TestCaseTestSteps")
   author: User @connection(name: "UserTestCases", keyField: "authorId")
   authorId: String
-  testCaseProjectId: ID!
+  testCaseProjectId: ID
   createdAt: String
   updatedAt: String
 }

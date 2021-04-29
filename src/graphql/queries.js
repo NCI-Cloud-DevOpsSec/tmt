@@ -62,6 +62,7 @@ export const getUser = /* GraphQL */ `
         items {
           id
           testCaseId
+          projectId
           name
           description
           module
@@ -236,6 +237,7 @@ export const listUsers = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -383,6 +385,7 @@ export const getProject = /* GraphQL */ `
         items {
           id
           testCaseId
+          projectId
           name
           description
           module
@@ -546,6 +549,7 @@ export const listProject = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -622,6 +626,7 @@ export const getTestCase = /* GraphQL */ `
     getTestCase(id: $id) {
       id
       testCaseId
+      projectId
       name
       description
       module
@@ -668,6 +673,7 @@ export const getTestCase = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -743,6 +749,7 @@ export const getTestCase = /* GraphQL */ `
           testCase {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -821,6 +828,7 @@ export const getTestCase = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -909,6 +917,7 @@ export const listTestCase = /* GraphQL */ `
       items {
         id
         testCaseId
+        projectId
         name
         description
         module
@@ -932,6 +941,7 @@ export const listTestCase = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -964,6 +974,7 @@ export const listTestCase = /* GraphQL */ `
             testCase {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -999,6 +1010,7 @@ export const listTestCase = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1042,6 +1054,7 @@ export const getTestStep = /* GraphQL */ `
       testCase {
         id
         testCaseId
+        projectId
         name
         description
         module
@@ -1065,6 +1078,7 @@ export const getTestStep = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1097,6 +1111,7 @@ export const getTestStep = /* GraphQL */ `
             testCase {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1132,6 +1147,7 @@ export const getTestStep = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1182,6 +1198,7 @@ export const listTestStep = /* GraphQL */ `
         testCase {
           id
           testCaseId
+          projectId
           name
           description
           module
@@ -1295,6 +1312,7 @@ export const getResult = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -1403,6 +1421,7 @@ export const getResult = /* GraphQL */ `
           items {
             id
             testCaseId
+            projectId
             name
             description
             module
@@ -1564,6 +1583,7 @@ export const listResult = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1609,6 +1629,7 @@ export const listResult = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1693,6 +1714,7 @@ export const getReport = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module
@@ -1738,6 +1760,7 @@ export const getReport = /* GraphQL */ `
             items {
               id
               testCaseId
+              projectId
               name
               description
               module

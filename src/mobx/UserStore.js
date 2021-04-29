@@ -42,7 +42,6 @@ class User {
             console.log(error)
           })
             .then(result => {
-              console.log("Update Admin Result:", result)
             })
         }
         else if (groups.indexOf('Executive') !== -1) {
@@ -53,7 +52,6 @@ class User {
             console.log(error)
           })
             .then(result => {
-              console.log("Update Executive Result:", result)
             })
         }
         else if (groups.indexOf('Manager') !== -1) {
@@ -64,7 +62,6 @@ class User {
             console.log(error)
           })
             .then(result => {
-              console.log("Update Manager Result:", result)
             })
         }
         else if (groups.indexOf('Tester') !== -1) {
@@ -75,7 +72,6 @@ class User {
             console.log(error)
           })
             .then(result => {
-              console.log("Update Tester Result:", result)
             })
         }
         user = await API.graphql(graphqlOperation(GetUserByEmail, { email }))
@@ -99,7 +95,6 @@ class User {
           group: this.group,
           designation: this.designation
         })).then(result => {
-          console.log("User creation result:", result)
           this.id = result.data.createUser.id
           this.designation = result.data.createUser.designation
           this.email = result.data.createUser.email

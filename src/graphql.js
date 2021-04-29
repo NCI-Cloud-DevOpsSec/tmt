@@ -38,6 +38,26 @@ const createProject = `
   }
 `
 
+const createTestcase = `
+  mutation($testCaseId: String!, $projectId: String!, $name: String!, $description: String!, $module: String!) {
+    createTestcase(input: {
+      testCaseId: $testCaseId
+      projectId: $projectId
+      name: $name
+      description: $description
+      module: $module
+    }
+    ) {
+      name
+      module
+      id
+      description
+      testCaseId
+      projectId
+    }
+  }
+`
+
 const updateUser = `
 mutation ($id: ID!, $designation: String, $group: String) {
   updateUser(input: {
@@ -54,65 +74,7 @@ mutation ($id: ID!, $designation: String, $group: String) {
   }
 }
 `
-
-// const createRecipie = `
-//   mutation($name: String!, $cuisine: String!, $ingredients: [String!]!, $possibleAllergens: [String!]!, $description: String!, $mediaUrl: String!){
-//     createRecipie(input:{
-//       name: $name
-//       cuisine: $cuisine
-//       ingredients: $ingredients
-//       possibleAllergens: $possibleAllergens
-//       description: $description
-//       mediaUrl: $mediaUrl
-//     }){
-//       id
-//     }
-//   }
-// `
-
-// const createMessage = gql`mutation CreateMessage(
-//     $createdAt: String, $id: ID, $authorId: String, $content: String!, $messageConversationId: ID!
-//   ) {
-//   createMessage(input: {
-//     createdAt: $createdAt, id: $id, content: $content, messageConversationId: $messageConversationId, authorId: $authorId
-//   }) {
-//     id
-//     content
-//     authorId
-//     messageConversationId
-//     createdAt
-//   }
-// }
-// `;
-
-
-// const createConvo = `mutation CreateConvo($name: String!, $members: [String!]!) {
-//   createConvo(input: {
-//     name: $name, members: $members
-//   }) {
-//     id
-//     name
-//     members
-//   }
-// }
-// `;
-
-// const createConvoLink = `mutation CreateConvoLink(
-//     $convoLinkConversationId: ID!, $convoLinkUserId: ID
-//   ) {
-//   createConvoLink(input: {
-//     convoLinkConversationId: $convoLinkConversationId, convoLinkUserId: $convoLinkUserId
-//   }) {
-//     id
-//     convoLinkUserId
-//     convoLinkConversationId
-//     conversation {
-//       id
-//       name
-//     }
-//   }
-// }
-// `;
+//Queries
 
 const getUser = graphql`
   query getUser($id: ID!) {
@@ -129,6 +91,7 @@ const getTesterProjects = graphql`
 query getTesterProjects($email: String!){
   listProject(filter: {testers: {contains: $email}}) {
     items {
+      description
       id
       name
       projectId
@@ -142,6 +105,7 @@ query getTesterProjects($email: String!){
           testCaseId
         }
       }
+      testers
     }
   }
 }
@@ -161,45 +125,6 @@ const getUserByEmail = graphql`
     }
   }
 `
-
-// const getUserAndConversations = gql`
-//   query getUserAndConversations($id:ID!) {
-//     getUser(id:$id) {
-//       id
-//       username
-//       conversations(limit: 100) {
-//         items {
-//           id
-//           conversation {
-//             id
-//             name
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
-
-// const getConvo = gql`
-//   query getConvo($id: ID!) {
-//     getConvo(id:$id) {
-//       id
-//       name
-//       members
-//       messages(limit: 100) {
-//         items {
-//           id
-//           content
-//           authorId
-//           messageConversationId
-//           createdAt
-//         }
-//       }
-//       createdAt
-//       updatedAt
-//     }
-//   }
-// `
 
 const listUsers = graphql`
   query listUsers {
@@ -240,60 +165,69 @@ const listProject = graphql`
   }
 `
 
-// const listRecipies = graphql`
-//   query listRecipies{
-//     listRecipies {
-//     items {
-//       cuisine
-//       description
-//       dislikes
-//       likes
-//       ingredients
-//       mediaUrl
-//       name
-//       possibleAllergens
-//       user
-//     }
-//   }
-//   }
-// `
+const getProjectById = graphql`
+query getProjectById ($projectId: String!){
+  listProject(filter: {projectId: {eq: $projectId}}) {
+    items {
+      projectId
+    }
+  }
+}
+`
 
-// const filterRecipieByName = graphql`
-// query listRecipies ($searchKeyword: String!){
-//   listRecipies(
-//     limit: 15
-//     filter: {
-//       name: {
-//       contains: $searchKeyword
-//       }
-//     }
-//   ) {
-//     items {
-//       cuisine
-//       description
-//       dislikes
-//       likes
-//       ingredients
-//       mediaUrl
-//       name
-//       possibleAllergens
-//       user
-//     }
-//   }
-// }
-// `
+const getTestCaseById = graphql`
+query getTestCaseById ($projectId: String!, $testCaseId: String!){
+  listTestCase(filter: {projectId: {eq: $projectId}, and: {testCaseId: {eq: $testCaseId}}}) {
+    items {
+      testCaseId
+    }
+  }
+}
+`
 
-// const onCreateMessage = gql`
-//   subscription onCreateMessage($messageConversationId: ID!) {
-//     onCreateMessage(messageConversationId: $messageConversationId) {
-//       id
-//       content
-//       authorId
-//       messageConversationId
-//       createdAt
-//     }
-//   }
-// `
+const listProjectWithTestCases = graphql`
+  query listProjectWithTestCases {
+    listProject {
+    items {
+      projectId
+      testCases {
+        items {
+          id
+          module
+          name
+          description
+          testSteps {
+            items {
+              testStepId
+            }
+          }
+          testCaseId
+          testCaseProjectId
+        }
+      }
+    }
+  }
+  }
+`
+
+const listTestCaseInProject = graphql`
+query listTestCaseInProject ($projectId: String!){
+  listTestCase(filter: {projectId: {eq: $projectId}}) {
+    items {
+      description
+      module
+      name
+      projectId
+      testCaseId
+      testSteps {
+        items {
+          testStepId
+        }
+      }
+    }
+  }
+}
+`
 
 const onCreateUser = gql`subscription OnCreateUser {
   onCreateUser {
@@ -310,19 +244,16 @@ const onCreateUser = gql`subscription OnCreateUser {
 export {
   createUser,
   createProject,
+  createTestcase,
   updateUser,
-  // createRecipie,
-  //   createMessage,
-  //   createConvoLink,
-  //   getConvo,
   getUser,
   getTesterProjects,
   getUserByEmail,
-  //   getUserAndConversations,
+  getProjectById,
+  getTestCaseById,
   listUsers,
   listProject,
-  // listRecipies,
-  // filterRecipieByName,
-  //   onCreateMessage,
+  listProjectWithTestCases,
+  listTestCaseInProject,
   onCreateUser
 }

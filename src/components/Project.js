@@ -1,25 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { css } from 'glamor'
-import { Auth } from 'aws-amplify'
 import { observer } from 'mobx-react'
 
 import UserStore from '../mobx/UserStore'
 import { primary } from '../theme'
 
 import { API, graphqlOperation } from 'aws-amplify'
-import { getTesterProjects, listProject, createProject } from '../graphql'
+import { getTesterProjects, listProject, createProject, getProjectById } from '../graphql'
 
 import MultipleValueTextInput from 'react-multivalue-text-input';
 
 const ProjectWithData = observer(class Project extends React.Component {
-    signOut = async () => {
-        try {
-            await Auth.signOut()
-        } catch (err) {
-            console.log('error signing out')
-        }
-    }
 
     constructor() {
         super();
@@ -72,17 +64,27 @@ const ProjectWithData = observer(class Project extends React.Component {
 
     onCreateProjectClick = event => {
         if (this.state.projectId !== "" && this.state.name !== "" && this.state.testers !== "") {
-            API.graphql(graphqlOperation(createProject, {
-                projectId: this.state.projectId,
-                name: this.state.projectName,
-                description: this.state.projectDescription,
-                testers: this.state.testers
-            })).then(result => {
-                console.log("Created project: ", result)
-            }).catch(err => {
-                console.log("Error Creating new project", err)
-                alert("Error creating project! Make sure to 'Add Project' and fill all enables fields before 'Create Project'")
-            })
+            API.graphql(graphqlOperation(getProjectById, { projectId: this.state.projectId }))
+                .then(result => {
+                    if (result.data.listProject.items.length === 0) {
+                        API.graphql(graphqlOperation(createProject, {
+                            projectId: this.state.projectId,
+                            name: this.state.projectName,
+                            description: this.state.projectDescription,
+                            testers: this.state.testers
+                        })).then(result => {
+                        }).catch(err => {
+                            console.log("Error Creating new project", err)
+                            alert("Error creating project! Make sure to 'Add Project' and fill all enables fields before 'Create Project'")
+                        })
+                    }
+                    else{
+                        alert("Project ID already available. Provide an unique Project ID")
+                    }
+                }).catch(err => {
+                    console.log("Error Creating new project", err)
+                    alert("Error creating project! Contact Support")
+                })
         }
         else {
             alert("Perform 'Add Project' and fill all details before performing 'Create Project'")
@@ -91,11 +93,10 @@ const ProjectWithData = observer(class Project extends React.Component {
 
     componentDidMount() {
 
-        const { email, id, designation, group } = UserStore
+        const { email, group } = UserStore
         if (group === "Executive" || group === "Admin") {
             API.graphql(graphqlOperation(listProject))
             .then(result => {
-                console.log("Full projects: ", result)
                 this.setState({
                     projects: result.data.listProject
                 })
@@ -106,7 +107,6 @@ const ProjectWithData = observer(class Project extends React.Component {
         else {
             API.graphql(graphqlOperation(getTesterProjects, { email: email }))
             .then(result => {
-                console.log("User projects: ", result)
                 this.setState({
                     projects: result.data.listProject
                 })
@@ -118,7 +118,7 @@ const ProjectWithData = observer(class Project extends React.Component {
     }
 
     render() {
-        const { email, id, designation, group } = UserStore
+        const { group } = UserStore
         return (
             <div {...css(styles.container)}>
                 <p {...css(styles.title)}>Projects</p>
@@ -126,11 +126,9 @@ const ProjectWithData = observer(class Project extends React.Component {
                     <thead>
                         <tr {...css(styles.tableRow)}>
                             <th>Name</th>
-                            <th>Unique ID</th>
+                            <th>Project ID</th>
                             <th>Description</th>
                             <th>Testers</th>
-                            <th>Test Cases</th>
-                            <th>Run Results</th>
                         </tr>
                         <tr {...css(styles.tableRow)} hidden={this.state.isAddRowHidden}>
                             <td {...css(styles.tableData)}>
@@ -158,12 +156,6 @@ const ProjectWithData = observer(class Project extends React.Component {
                                     placeholder="Press Enter after each email address"
                                 />
                             </td>
-                            <td {...css(styles.tableData)}>
-                                <input type="number" disabled={true} value={0}></input>
-                            </td>
-                            <td {...css(styles.tableData)}>
-                                <input type="number" disabled={true} value={0}></input>
-                            </td>
                         </tr>
                     </thead>
                     {this.state.projects.items.length !== 0 ?
@@ -177,8 +169,6 @@ const ProjectWithData = observer(class Project extends React.Component {
                                         <td {...css(styles.tableData)}><ul>{userProjects.testers.map(value=>{
                                             return( <li>{value}</li> )
                                         })}</ul></td>
-                                        <td {...css(styles.tableData)}>{userProjects.testCases.items.length}</td>
-                                        <td {...css(styles.tableData)}>{userProjects.results.items.length}</td>
                                     </tr>
                                 )
                             })}
@@ -205,7 +195,7 @@ const ProjectWithData = observer(class Project extends React.Component {
                                         <td  {...css(styles.tableData)} > <button {...css(styles.button)} onClick={this.onCreateProjectClick}>Create Project</button> </td>
                                     </tr> :
                                     <tr>
-                                        <br />
+                                        <td colSpan='5' {...css(styles.tableData)}> No Projects Yet to view </td>
                                     </tr>
                             }
 

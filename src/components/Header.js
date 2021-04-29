@@ -13,7 +13,13 @@ class Header extends React.Component {
           to='/project'
           {...css(styles.button)}
         >
-          <p {...css(styles.buttonText)}>Project</p>
+          <p {...css(styles.buttonText)}>Projects</p>
+        </Link>
+        <Link
+          to='/testCases'
+          {...css(styles.button)}
+        >
+          <p {...css(styles.buttonText)}>Test Cases</p>
         </Link>
         <Link
           to='/profile'

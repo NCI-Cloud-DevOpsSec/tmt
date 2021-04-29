@@ -9,7 +9,7 @@ import { primary } from './theme'
 class App extends Component {
   render() {
     return (
-      <div {...css(styles.container)}>
+      <div id="rootDiv" {...css(styles.container)}>
         <Router />
       </div>
     );

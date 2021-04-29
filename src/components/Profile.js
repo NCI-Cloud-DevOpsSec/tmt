@@ -15,7 +15,7 @@ const ProfileWithData = observer(class Profile extends React.Component {
     try {
       await Auth.signOut()
     } catch (err) {
-      console.log('error signing out')
+      console.log('Error signing out')
     }
   }
 
@@ -37,7 +37,6 @@ const ProfileWithData = observer(class Profile extends React.Component {
         id: this.id,
         designation: this.designation
       })).then(result => {
-        console.log("Updated user from profile", result)
       }).catch(err => {
         console.log("Error Updating user from profile", err)
       })
