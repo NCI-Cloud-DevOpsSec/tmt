@@ -51,7 +51,7 @@ const ProfileWithData = observer(class Profile extends React.Component {
     this.designation = designation
     return (
       <div {...css(styles.container)}>
-        <p {...css(styles.title)} data-testid="profileTitle" >Profile</p>
+        <p {...css(styles.title)} data-testid="profileTitle" >Profile Section</p>
         <p>Email: <b data-testid="userEmailValue">{email}</b></p>
         <p>Designation:
           <form {...css(styles.editDesignation)}>
