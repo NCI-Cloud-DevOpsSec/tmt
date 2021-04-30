@@ -99,5 +99,5 @@ it("Renders Test Case Page", () => {
   
   //This tests whether the mock container contains a text or not
   expect(container.textContent).not.toContain("Add Test Case")
-  expect(container.textContent).not.toContain("Create Test Case")
+  expect(container.textContent).toContain("Create Test Case")
 })
