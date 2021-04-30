@@ -139,13 +139,13 @@ const ProjectWithData = observer(class Project extends React.Component {
                         </tr>
                         <tr data-testid="addNewProjectForm" {...css(styles.tableRow)} hidden={this.state.isAddRowHidden}>
                             <td {...css(styles.tableData)}>
-                                <input {...css(styles.addProjectField)} type="text" onChange={this.onAddNewProjectNameChange} placeholder="Name"></input>
+                                <input data-testid="addNewProjectName" {...css(styles.addProjectField)} type="text" onChange={this.onAddNewProjectNameChange} placeholder="Name"></input>
                             </td>
                             <td {...css(styles.tableData)}>
-                                <input type="text" onChange={this.onAddNewProjectIdChange} placeholder="Recommended ID: 'Project Name_Random number'"></input>
+                                <input data-testid="addNewProjectID" type="text" onChange={this.onAddNewProjectIdChange} placeholder="Recommended ID: 'Project Name_Random number'"></input>
                             </td>
                             <td {...css(styles.tableData)}>
-                                <textarea onChange={this.onAddNewProjectDescriptionChange} ></textarea>
+                                <textarea data-testid="addNewProjectDescription" onChange={this.onAddNewProjectDescriptionChange} ></textarea>
                             </td>
                             <td {...css(styles.tableData)}>
                                 <MultipleValueTextInput
@@ -160,6 +160,7 @@ const ProjectWithData = observer(class Project extends React.Component {
                                         })
                                     }
                                     name="project_testers"
+                                    data-testid="addNewProjectTesters"
                                     placeholder="Press Enter after each email address"
                                 />
                             </td>

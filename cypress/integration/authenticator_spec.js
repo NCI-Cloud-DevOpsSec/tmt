@@ -1,7 +1,7 @@
 describe('Authenticator:', function () {
     // Step 1: setup the application state
     beforeEach(function () {
-        Cypress.config('defaultCommandTimeout', 10000);
+        Cypress.config('defaultCommandTimeout', 60000);
         cy.visit('/');
     });
 

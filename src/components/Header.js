@@ -18,19 +18,19 @@ class Header extends React.Component {
           to='/project'
           {...css(styles.button)}
         >
-          <p {...css(styles.buttonText)}>Projects</p>
+          <p data-testid="headerProjects" {...css(styles.buttonText)}>Projects</p>
         </Link>
         <Link
           to='/testCases'
           {...css(styles.button)}
         >
-          <p {...css(styles.buttonText)}>Test Cases</p>
+          <p data-testid="headerTestCases" {...css(styles.buttonText)}>Test Cases</p>
         </Link>
         <Link
           to='/profile'
           {...css(styles.button)}
         >
-          <p {...css(styles.buttonText)}>Profile</p>
+          <p data-testid="headerProfile" {...css(styles.buttonText)}>Profile</p>
         </Link>
         <AppInfo id={app}/>
       </div>
