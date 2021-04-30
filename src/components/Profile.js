@@ -60,7 +60,7 @@ const ProfileWithData = observer(class Profile extends React.Component {
             <button {...css(styles.button)} data-testid="updateDesignation" onClick={this.onUpdateUser}> Update </button>
           </form>
         </p>
-        <p>Access Group: <b>{group}</b></p>
+        <p>Access Group: <b data-testid="profileGroup">{group}</b></p>
 
         <div {...css(styles.signOutButton)}>
           <p {...css(styles.buttonText)} data-testid="signOut" onClick={this.signOut}>Sign Out</p>

@@ -1,6 +1,7 @@
 describe('Authenticator:', function () {
     // Step 1: setup the application state
     beforeEach(function () {
+        Cypress.config('defaultCommandTimeout', 10000);
         cy.visit('/');
     });
 
@@ -24,8 +25,8 @@ describe('Authenticator:', function () {
 });
 
 export const login = {
-    username: Cypress.env('CYPRESS_USERNAME'),
-    password: Cypress.env('CYPRESS_PASSWORD')
+    username: Cypress.env('username'),
+    password: Cypress.env('password')
 }
 
 export const selectors = {
