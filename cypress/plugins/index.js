@@ -16,17 +16,7 @@
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
-
-const awsConfig = require(path.join(__dirname, '../../aws-exports-es5.js'))
-
-dotenv.config()
-
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-
-  config.env.cognito_username = process.env.COGNITO_USERNAME
-  config.env.cognito_password = process.env.COGNITO_PASSWORD
-  config.env.awsConfig = awsConfig.default
-
 }

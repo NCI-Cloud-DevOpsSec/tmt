@@ -24,8 +24,8 @@ describe('Authenticator:', function () {
 });
 
 export const login = {
-    username: Cypress.env('cognito_username'),
-    password: Cypress.env('cognito_password')
+    username: Cypress.env('CYPRESS_USERNAME'),
+    password: Cypress.env('CYPRESS_PASSWORD')
 }
 
 export const selectors = {
