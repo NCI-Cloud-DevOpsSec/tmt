@@ -21,7 +21,7 @@ export default function AppInfo(props) {
 
   return (
     <p style={{color:'white'}}>
-      <b>{app.name}</b>
+      <b> {app.name}</b>
       <strong> (v{app.version})</strong>
       <br />
     </p>
