@@ -50,6 +50,7 @@ const ProjectWithData = observer(class Project extends React.Component {
     }
 
     onAddProjectClick = event => {
+        console.log("Add Project click event:", event)
         if(this.state.isAddRowHidden){
             this.setState({
                 isAddRowHidden: false
@@ -63,6 +64,7 @@ const ProjectWithData = observer(class Project extends React.Component {
     }
 
     onCreateProjectClick = event => {
+        console.log("Create Project click event:", event)
         if (this.state.projectId !== "" && this.state.name !== "" && this.state.testers !== "") {
             API.graphql(graphqlOperation(getProjectById, { projectId: this.state.projectId }))
                 .then(result => {
@@ -72,8 +74,7 @@ const ProjectWithData = observer(class Project extends React.Component {
                             name: this.state.projectName,
                             description: this.state.projectDescription,
                             testers: this.state.testers
-                        })).then(result => {
-                        }).catch(err => {
+                        })).catch(err => {
                             console.log("Error Creating new project", err)
                             alert("Error creating project! Make sure to 'Add Project' and fill all enables fields before 'Create Project'")
                         })
@@ -170,12 +171,12 @@ const ProjectWithData = observer(class Project extends React.Component {
                         <tbody data-testid="projectTableBody">
                             {this.state.projects.items.map((userProjects) => {
                                 return (
-                                    <tr {...css(styles.tableRow)}>
+                                    <tr key={userProjects.projectId} {...css(styles.tableRow)}>
                                         <td {...css(styles.tableData)}>{userProjects.name}</td>
                                         <td {...css(styles.tableData)}>{userProjects.projectId}</td>
                                         <td {...css(styles.tableData)}>{userProjects.description}</td>
                                         <td {...css(styles.tableData)}><ul>{userProjects.testers.map(value=>{
-                                            return( <li>{value}</li> )
+                                            return( <li key={value} >{value}</li> )
                                         })}</ul></td>
                                     </tr>
                                 )

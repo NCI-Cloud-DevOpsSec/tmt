@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, { useState, useEffect } from "react";
 
 export default function AppInfo(props) {

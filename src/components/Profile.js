@@ -36,8 +36,7 @@ const ProfileWithData = observer(class Profile extends React.Component {
       API.graphql(graphqlOperation(updateUser, {
         id: this.id,
         designation: this.designation
-      })).then(result => {
-      }).catch(err => {
+      })).catch(err => {
         console.log("Error Updating user from profile", err)
       })
     }

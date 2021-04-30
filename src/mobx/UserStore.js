@@ -41,8 +41,6 @@ class User {
           })).catch(error => {
             console.log(error)
           })
-            .then(result => {
-            })
         }
         else if (groups.indexOf('Executive') !== -1) {
           await API.graphql(graphqlOperation(updateUser, {
@@ -51,8 +49,6 @@ class User {
           })).catch(error => {
             console.log(error)
           })
-            .then(result => {
-            })
         }
         else if (groups.indexOf('Manager') !== -1) {
           await API.graphql(graphqlOperation(updateUser, {
@@ -61,8 +57,6 @@ class User {
           })).catch(error => {
             console.log(error)
           })
-            .then(result => {
-            })
         }
         else if (groups.indexOf('Tester') !== -1) {
           await API.graphql(graphqlOperation(updateUser, {
@@ -71,8 +65,6 @@ class User {
           })).catch(error => {
             console.log(error)
           })
-            .then(result => {
-            })
         }
         user = await API.graphql(graphqlOperation(GetUserByEmail, { email }))
         getUser = user.data.listUsers.items[0]

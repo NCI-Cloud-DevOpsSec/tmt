@@ -62,6 +62,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
     }
 
     onAddTestCaseClick = event => {
+        console.log("Add Add Test Case click event:", event)
         if(this.state.isAddRowHidden){
             this.setState({
                 isAddRowHidden: false
@@ -75,6 +76,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
     }
 
     onCreateTestCaseClick = event => {
+        console.log("Add Create Test Case click event:", event)
         if (this.state.testCaseId !== "" &&
             this.state.testCaseName !== "" &&
             this.state.testCaseDescription !== "" &&
@@ -89,8 +91,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                             name: this.state.testCaseName,
                             description: this.state.testCaseDescription,
                             module: this.state.testCaseModule
-                        })).then(result => {
-                        }).catch(err => {
+                        })).catch(err => {
                             console.log("Error creation new test case in 2", err)
                             alert("Error creating test case! Make sure to 'Add Test Case' and fill all enables fields before 'Create Test Case'")
                         })
@@ -236,7 +237,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                         <tbody data-testid="testCaseBody">
                             {this.state.testCases.items.map((testCases) => {
                                 return (
-                                    <tr {...css(styles.tableRow)}>
+                                    <tr key={testCases.testCaseId} {...css(styles.tableRow)}>
                                         <td {...css(styles.tableData)}>{testCases.name}</td>
                                         <td {...css(styles.tableData)}>{testCases.testCaseId}</td>
                                         <td {...css(styles.tableData)}>{testCases.description}</td>
