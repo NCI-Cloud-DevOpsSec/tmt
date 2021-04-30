@@ -52,18 +52,18 @@ const ProfileWithData = observer(class Profile extends React.Component {
     this.designation = designation
     return (
       <div {...css(styles.container)}>
-        <p {...css(styles.title)}>Profile</p>
-        <p>Email: <b>{email}</b></p>
+        <p {...css(styles.title)} data-testid="profileTitle" >Profile</p>
+        <p>Email: <b data-testid="userEmailValue">{email}</b></p>
         <p>Designation:
           <form {...css(styles.editDesignation)}>
-            <input type="text" id="profile_designation" value={this.designation} onChange={this.onDesignationEdit} />
-            <button {...css(styles.button)} onClick={this.onUpdateUser}> Update </button>
+            <input type="text" data-testid="profile_designation" value={this.designation} onChange={this.onDesignationEdit} />
+            <button {...css(styles.button)} data-testid="updateDesignation" onClick={this.onUpdateUser}> Update </button>
           </form>
         </p>
         <p>Access Group: <b>{group}</b></p>
 
         <div {...css(styles.signOutButton)}>
-          <p {...css(styles.buttonText)} onClick={this.signOut}>Sign Out</p>
+          <p {...css(styles.buttonText)} data-testid="signOut" onClick={this.signOut}>Sign Out</p>
         </div>
       </div>
     )

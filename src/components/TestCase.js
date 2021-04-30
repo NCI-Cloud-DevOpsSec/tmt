@@ -135,7 +135,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                 console.log("Error getting user projects!", err)
             })
         }
-        else {
+        else if(group === "Manager" || group === "Tester"){
             API.graphql(graphqlOperation(getTesterProjects, { email: email }))
             .then(result => {
                 this.setState({
@@ -157,6 +157,14 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                 }
             }).catch(err => {
                 console.log("Error getting user projects!", err)
+            })
+        }
+        else{
+            this.setState({
+                projectIds: [{
+                    value: '',
+                    display: 'Select a project to load Test Cases'
+                }]
             })
         }
 
@@ -183,7 +191,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
             <div {...css(styles.container)}>
                 <p {...css(styles.title)}>Test Cases
                     <select {...css(styles.projectSelector)}
-                        id="projects" value={this.state.selectedProject}
+                        data-testid="projectsDD" value={this.state.selectedProject}
                         onChange={this.onProjectChange}>
                         {
                             this.state.projectIds.map(projects => {
@@ -197,7 +205,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                         }
                     </select>
                 </p>
-                <table {...css(styles.table)}>
+                <table data-testid="testCaseTable" {...css(styles.table)}>
                     <thead>
                         <tr {...css(styles.tableRow)}>
                             <th>Name</th>
@@ -206,7 +214,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                             <th>Module</th>
                             <th>Test Steps</th>
                         </tr>
-                        <tr {...css(styles.tableRow)} hidden={this.state.isAddRowHidden}>
+                        <tr data-testid="addTestCaseRow" {...css(styles.tableRow)} hidden={this.state.isAddRowHidden}>
                             <td {...css(styles.tableData)}>
                                 <input {...css(styles.addProjectField)} type="text" onChange={this.onAddNewTestCaseNameChange} placeholder="Name"></input>
                             </td>
@@ -225,7 +233,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                         </tr>
                     </thead>
                     {this.state.testCases.items.length !== 0 ?
-                        <tbody>
+                        <tbody data-testid="testCaseBody">
                             {this.state.testCases.items.map((testCases) => {
                                 return (
                                     <tr {...css(styles.tableRow)}>
@@ -249,7 +257,7 @@ const TestCaseWithData = observer(class TestCase extends React.Component {
                                 </tr>
                             }
                         </tbody> :
-                        <tbody>
+                        <tbody data-testid="testCaseBody">
                             {(group === "Tester") ?
                                 <tr {...css(styles.tableRow)}>
                                     <td colSpan='5' {...css(styles.tableData)}> Yet to create test cases to this project </td>

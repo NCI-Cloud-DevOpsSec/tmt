@@ -104,7 +104,7 @@ const ProjectWithData = observer(class Project extends React.Component {
                 console.log("Error getting user projects!", err)
             })
         }
-        else {
+        else if(group === "Manager" || group === "Tester"){
             API.graphql(graphqlOperation(getTesterProjects, { email: email }))
             .then(result => {
                 this.setState({
@@ -112,6 +112,13 @@ const ProjectWithData = observer(class Project extends React.Component {
                 })
             }).catch(err => {
                 console.log("Error getting user projects!", err)
+            })
+        }
+        else{
+            this.setState({
+                projects: {
+                    "items": []
+                }
             })
         }
 
@@ -122,7 +129,7 @@ const ProjectWithData = observer(class Project extends React.Component {
         return (
             <div {...css(styles.container)}>
                 <p {...css(styles.title)}>Projects</p>
-                <table {...css(styles.table)}>
+                <table data-testid="projectTable" {...css(styles.table)}>
                     <thead>
                         <tr {...css(styles.tableRow)}>
                             <th>Name</th>
@@ -130,7 +137,7 @@ const ProjectWithData = observer(class Project extends React.Component {
                             <th>Description</th>
                             <th>Testers</th>
                         </tr>
-                        <tr {...css(styles.tableRow)} hidden={this.state.isAddRowHidden}>
+                        <tr data-testid="addNewProjectForm" {...css(styles.tableRow)} hidden={this.state.isAddRowHidden}>
                             <td {...css(styles.tableData)}>
                                 <input {...css(styles.addProjectField)} type="text" onChange={this.onAddNewProjectNameChange} placeholder="Name"></input>
                             </td>
@@ -159,7 +166,7 @@ const ProjectWithData = observer(class Project extends React.Component {
                         </tr>
                     </thead>
                     {this.state.projects.items.length !== 0 ?
-                        <tbody>
+                        <tbody data-testid="projectTableBody">
                             {this.state.projects.items.map((userProjects) => {
                                 return (
                                     <tr {...css(styles.tableRow)}>
@@ -175,24 +182,24 @@ const ProjectWithData = observer(class Project extends React.Component {
                             {((group === "Admin") || (group === "Manager")) ?
                                 <tr {...css(styles.tableRow)}>
                                     <td {...css(styles.tableData)} >
-                                        <button {...css(styles.button)} onClick={this.onAddProjectClick}>Add Project</button> </td>
+                                        <button {...css(styles.button)} data-testid="addButton" onClick={this.onAddProjectClick}>Add Project</button> </td>
                                     <td {...css(styles.tableData)}>
-                                        <button {...css(styles.button)} onClick={this.onCreateProjectClick}>Create Project</button> </td>
+                                        <button {...css(styles.button)} data-testid="createButton" onClick={this.onCreateProjectClick}>Create Project</button> </td>
                                 </tr> :
                                 <tr>
                                     <br />
                                 </tr>
                             }
                         </tbody> :
-                        <tbody>
+                        <tbody data-testid="projectTableBody">
                             {(group === "Tester") ?
                                 <tr {...css(styles.tableRow)}>
                                     <td colSpan='5' {...css(styles.tableData)}> You are yet to be assigned with a Project </td>
                                 </tr> :
                                 ((group === "Admin") || (group === "Manager")) ?
                                     <tr {...css(styles.tableRow)}>
-                                        <td  {...css(styles.tableData)} > <button {...css(styles.button)} onClick={this.onAddProjectClick}>Add Project</button> </td>
-                                        <td  {...css(styles.tableData)} > <button {...css(styles.button)} onClick={this.onCreateProjectClick}>Create Project</button> </td>
+                                        <td  {...css(styles.tableData)} > <button data-testid="addButton" {...css(styles.button)} onClick={this.onAddProjectClick}>Add Project</button> </td>
+                                        <td  {...css(styles.tableData)} > <button data-testid="createButton" {...css(styles.button)} onClick={this.onCreateProjectClick}>Create Project</button> </td>
                                     </tr> :
                                     <tr>
                                         <td colSpan='5' {...css(styles.tableData)}> No Projects Yet to view </td>

@@ -4,9 +4,14 @@ import { css } from 'glamor'
 import { Link, withRouter } from 'react-router-dom'
 
 import { primary } from '../theme'
+import AppInfo from './AppInfo'
 
 class Header extends React.Component {
   render() {
+    const app = {
+      name: "TmT",
+      version: "1.0.0"
+    }
     return (
       <div {...css(styles.header)}>
         <Link
@@ -27,6 +32,7 @@ class Header extends React.Component {
         >
           <p {...css(styles.buttonText)}>Profile</p>
         </Link>
+        <AppInfo id={app}/>
       </div>
     )
   }
